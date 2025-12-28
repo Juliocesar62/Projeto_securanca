@@ -1,0 +1,9 @@
+CREATE EXTENSION IF NOT EXISTS unaccent;
+
+CREATE TABLE usuario (
+     id SERIAL PRIMARY KEY UNIQUE NOT NULL ,
+     login TEXT NOT NULL,
+     senha TEXT NOT NULL,
+     role TEXT NOT NULL,
+     email TEXT
+);
