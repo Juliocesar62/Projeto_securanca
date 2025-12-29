@@ -37,12 +37,29 @@ public class Usuario implements UserDetails {
     @Column(name = "email" , nullable = false)
     private String email;
 
-    public Usuario(String login, String senha, RoleUsuario role, String email) {
+    @OneToOne
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
+
+    @OneToOne
+    @JoinColumn(name = "id_atendente" , referencedColumnName = "id")
+    private Atendente atendente;
+
+    public Usuario(String login, String senha, RoleUsuario role, String email, Atendente atendente) {
         this.id = null;
         this.login = login;
         this.senha = senha;
         this.role = role;
         this.email = email;
+        this.atendente = atendente;
+    }
+
+    public Usuario(String login, String senha, RoleUsuario role, String email, Cliente cliente) {
+        this.login = login;
+        this.senha = senha;
+        this.role = role;
+        this.email = email;
+        this.cliente = cliente;
     }
 
     @Override
@@ -64,22 +81,22 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
 }

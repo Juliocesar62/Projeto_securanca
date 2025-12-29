@@ -6,12 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "cliente")
-@Table(name = "cliente")
-@AllArgsConstructor
+@Entity(name = "atendente")
+@Table(name = "atendente")
 @Getter@Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class Cliente {
+public class Atendente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,14 +23,13 @@ public class Cliente {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "telefone")
-    private String telefone;
+    @Column(name = "setor")
+    private String setor;
 
-    public Cliente(String nome, String email, String telefone) {
+    public Atendente(String nome, String email, String setor) {
         this.id = null;
         this.nome = nome;
         this.email = email;
-        this.telefone = telefone;
+        this.setor = setor;
     }
-
 }

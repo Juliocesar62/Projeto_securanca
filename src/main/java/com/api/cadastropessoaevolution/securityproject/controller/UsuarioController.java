@@ -1,7 +1,6 @@
 package com.api.cadastropessoaevolution.securityproject.controller;
 
-import com.api.cadastropessoaevolution.securityproject.dto.CadastroUsuarioResponseDTO;
-import com.api.cadastropessoaevolution.securityproject.dto.UsuarioResponseDTO;
+import com.api.cadastropessoaevolution.securityproject.dto.*;
 import com.api.cadastropessoaevolution.securityproject.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +16,14 @@ public class UsuarioController {
 
     private final UsuarioService service;
 
-    @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> cadastrarUsuario(@RequestBody CadastroUsuarioResponseDTO cadastroUsuarioResponseDTO){
-        return ResponseEntity.ok(service.cadastroUsuario(cadastroUsuarioResponseDTO).getBody());
+    @PostMapping("/cadastro")
+    public ResponseEntity<String> cadastrarUsuario(@RequestBody CadastroUsuarioRequestDTO cadastroUsuarioRequestDTO){
+        return ResponseEntity.ok(service.cadastroUsuario(cadastroUsuarioRequestDTO).getBody());
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginDTO data) {
+        return ResponseEntity.ok(service.login(data).getBody());
     }
 
 }
