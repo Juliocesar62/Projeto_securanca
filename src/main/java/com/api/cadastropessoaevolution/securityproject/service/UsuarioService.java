@@ -2,7 +2,6 @@ package com.api.cadastropessoaevolution.securityproject.service;
 
 import com.api.cadastropessoaevolution.securityproject.dto.CadastroUsuarioRequestDTO;
 import com.api.cadastropessoaevolution.securityproject.dto.LoginDTO;
-import com.api.cadastropessoaevolution.securityproject.infra.security.TokenService;
 import com.api.cadastropessoaevolution.securityproject.model.Atendente;
 import com.api.cadastropessoaevolution.securityproject.model.Cliente;
 import com.api.cadastropessoaevolution.securityproject.model.Usuario;
@@ -39,14 +38,15 @@ public class UsuarioService {
     public ResponseEntity<String> cadastroUsuario(CadastroUsuarioRequestDTO cadastroUsuarioRequestDTO) {
         Usuario entidade;
         if (cadastroUsuarioRequestDTO.role() == RoleUsuario.ADMIN) {
-            Atendente atendente = new Atendente(cadastroUsuarioRequestDTO.login(), cadastroUsuarioRequestDTO.email(), cadastroUsuarioRequestDTO.setor());
+            CadastroUsuarioRequestDTO usuarioRequestDTO = new CadastroUsuarioRequestDTO(cadastroUsuarioRequestDTO.login() , cadastroUsuarioRequestDTO.senha(), cadastroUsuarioRequestDTO.email(), cadastroUsuarioRequestDTO.setor(), cadastroUsuarioRequestDTO.role());
+            Atendente atendente = new Atendente(usuarioRequestDTO.login() , usuarioRequestDTO.senha() , usuarioRequestDTO.setor());
             entidade = new Usuario(cadastroUsuarioRequestDTO.login(), passwordEncoder.encode(cadastroUsuarioRequestDTO.senha()), RoleUsuario.ADMIN, cadastroUsuarioRequestDTO.email(), atendente);
             atendenteRepository.save(atendente);
             usuarioRepository.save(entidade);
             return ResponseEntity.ok("ATENDENTE salvo com sucesso");
         } else {
-            entidade = new Usuario(cadastroUsuarioRequestDTO.login(), passwordEncoder.encode(cadastroUsuarioRequestDTO.senha()), RoleUsuario.USER, cadastroUsuarioRequestDTO.email(), new Cliente());
-            clienteRepository.save(entidade.getCliente());
+            Cliente cliente = clienteRepository.encontrarCliente(cadastroUsuarioRequestDTO.login() , cadastroUsuarioRequestDTO.email());
+            entidade = new Usuario(cadastroUsuarioRequestDTO.login(), passwordEncoder.encode(cadastroUsuarioRequestDTO.senha()), RoleUsuario.USER, cadastroUsuarioRequestDTO.email(), cliente);
             usuarioRepository.save(entidade);
             return ResponseEntity.ok("CLIENTE cadastrado");
         }

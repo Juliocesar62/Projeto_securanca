@@ -4,13 +4,15 @@ import com.api.cadastropessoaevolution.securityproject.model.enums.RoleUsuario;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 public record CadastroUsuarioRequestDTO(
         @NotBlank String login,
         @NotBlank String senha,
         @Email String email,
-        @NotBlank String setor,
+        String setor,
         @NotNull RoleUsuario role
-
-) {
+)
+    {
 }

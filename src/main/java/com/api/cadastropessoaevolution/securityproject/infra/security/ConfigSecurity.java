@@ -28,7 +28,8 @@ public class ConfigSecurity {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorization -> {
-                    authorization.requestMatchers("/usuario/**").permitAll();
+                    authorization.requestMatchers("/autenticar/**").permitAll();
+                    authorization.requestMatchers("/atendente/**").hasRole("ADMIN");
                     authorization.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter , UsernamePasswordAuthenticationFilter.class)
