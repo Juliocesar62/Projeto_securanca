@@ -1,7 +1,7 @@
 package com.api.cadastropessoaevolution.securityproject.service;
 
 import com.api.cadastropessoaevolution.securityproject.dto.CadastroClienteDTO;
-import com.api.cadastropessoaevolution.securityproject.dto.CadastroUsuarioRequestDTO;
+import com.api.cadastropessoaevolution.securityproject.dto.CadastroUsuarioDTO;
 import com.api.cadastropessoaevolution.securityproject.model.Cliente;
 import com.api.cadastropessoaevolution.securityproject.model.enums.RoleUsuario;
 import com.api.cadastropessoaevolution.securityproject.repository.AtendenteRepository;
@@ -37,7 +37,7 @@ public class AtendenteService {
                 int indiceAleatorio = random.nextInt(CARACTERES.length());
                 sb.append(CARACTERES.charAt(indiceAleatorio));
             }
-            CadastroUsuarioRequestDTO clienteUsuario = new CadastroUsuarioRequestDTO(cliente.getNome(), sb.toString(), cliente.getEmail(), "Cliente", RoleUsuario.USER);
+            CadastroUsuarioDTO clienteUsuario = new CadastroUsuarioDTO(cliente.getNome(), sb.toString(), cliente.getEmail(), "Cliente", RoleUsuario.USER);
             clienteRepository.save(cliente);
             usuarioService.cadastroUsuario(clienteUsuario);
             return validoCliente;

@@ -17,8 +17,8 @@ public class UsuarioController {
     private final UsuarioService service;
 
     @PostMapping("/cadastro")
-    public ResponseEntity<String> cadastrarUsuario(@RequestBody CadastroUsuarioRequestDTO cadastroUsuarioRequestDTO){
-        return ResponseEntity.ok(service.cadastroUsuario(cadastroUsuarioRequestDTO).getBody());
+    public ResponseEntity<String> cadastrarUsuario(@RequestBody CadastroUsuarioDTO cadastroUsuarioDTO){
+        return ResponseEntity.ok(service.cadastroUsuario(cadastroUsuarioDTO).getBody());
     }
 
     @PostMapping("/login")

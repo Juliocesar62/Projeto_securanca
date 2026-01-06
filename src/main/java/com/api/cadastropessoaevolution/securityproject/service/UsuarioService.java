@@ -1,6 +1,6 @@
 package com.api.cadastropessoaevolution.securityproject.service;
 
-import com.api.cadastropessoaevolution.securityproject.dto.CadastroUsuarioRequestDTO;
+import com.api.cadastropessoaevolution.securityproject.dto.CadastroUsuarioDTO;
 import com.api.cadastropessoaevolution.securityproject.dto.LoginDTO;
 import com.api.cadastropessoaevolution.securityproject.model.Atendente;
 import com.api.cadastropessoaevolution.securityproject.model.Cliente;
@@ -35,18 +35,18 @@ public class UsuarioService {
     private final TokenService tokenService;
 
 
-    public ResponseEntity<String> cadastroUsuario(CadastroUsuarioRequestDTO cadastroUsuarioRequestDTO) {
+    public ResponseEntity<String> cadastroUsuario(CadastroUsuarioDTO cadastroUsuarioDTO) {
         Usuario entidade;
-        if (cadastroUsuarioRequestDTO.role() == RoleUsuario.ADMIN) {
-            CadastroUsuarioRequestDTO usuarioRequestDTO = new CadastroUsuarioRequestDTO(cadastroUsuarioRequestDTO.login() , cadastroUsuarioRequestDTO.senha(), cadastroUsuarioRequestDTO.email(), cadastroUsuarioRequestDTO.setor(), cadastroUsuarioRequestDTO.role());
+        if (cadastroUsuarioDTO.role() == RoleUsuario.ADMIN) {
+            CadastroUsuarioDTO usuarioRequestDTO = new CadastroUsuarioDTO(cadastroUsuarioDTO.login() , cadastroUsuarioDTO.senha(), cadastroUsuarioDTO.email(), cadastroUsuarioDTO.setor(), cadastroUsuarioDTO.role());
             Atendente atendente = new Atendente(usuarioRequestDTO.login() , usuarioRequestDTO.senha() , usuarioRequestDTO.setor());
-            entidade = new Usuario(cadastroUsuarioRequestDTO.login(), passwordEncoder.encode(cadastroUsuarioRequestDTO.senha()), RoleUsuario.ADMIN, cadastroUsuarioRequestDTO.email(), atendente);
+            entidade = new Usuario(cadastroUsuarioDTO.login(), passwordEncoder.encode(cadastroUsuarioDTO.senha()), RoleUsuario.ADMIN, cadastroUsuarioDTO.email(), atendente);
             atendenteRepository.save(atendente);
             usuarioRepository.save(entidade);
             return ResponseEntity.ok("ATENDENTE salvo com sucesso");
         } else {
-            Cliente cliente = clienteRepository.encontrarCliente(cadastroUsuarioRequestDTO.login() , cadastroUsuarioRequestDTO.email());
-            entidade = new Usuario(cadastroUsuarioRequestDTO.login(), passwordEncoder.encode(cadastroUsuarioRequestDTO.senha()), RoleUsuario.USER, cadastroUsuarioRequestDTO.email(), cliente);
+            Cliente cliente = clienteRepository.encontrarCliente(cadastroUsuarioDTO.login() , cadastroUsuarioDTO.email());
+            entidade = new Usuario(cadastroUsuarioDTO.login(), passwordEncoder.encode(cadastroUsuarioDTO.senha()), RoleUsuario.USER, cadastroUsuarioDTO.email(), cliente);
             usuarioRepository.save(entidade);
             return ResponseEntity.ok("CLIENTE cadastrado");
         }
